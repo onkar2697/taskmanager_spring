@@ -3,6 +3,7 @@ package com.example.taskmanager_spring.service;
 import com.example.taskmanager_spring.entities.TaskEntity;
 import org.springframework.stereotype.Repository;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,22 +11,25 @@ import java.util.Date;
 public class TaskService  {
     private ArrayList<TaskEntity> tasks = new ArrayList<>();
     private int taskid =1;
+    private SimpleDateFormat deadlineFormatter = new SimpleDateFormat("YYYY-MM-dd");
 
-    void addTask(String title, String description,String deadline){
+    public TaskEntity addTask(String title, String description,String deadline){
         TaskEntity task = new TaskEntity();
         task.setId(taskid);
         task.setTitle(title);
         task.setDescription(description);
-        task.setDeadline(new Date(deadline));
+        //task.setDeadline(new Date(deadline));
         task.setCompleted(false);
         tasks.add(task);
         taskid++;
+
+        return task;
     }
 
-    ArrayList<TaskEntity> getTask(){
+    public ArrayList<TaskEntity> getTasks(){
         return tasks;
     }
-    TaskEntity getTaskById(int id){
+    public TaskEntity getTaskById(int id){
         for(TaskEntity task: tasks){
             if(task.getId() == id){
                 return task;
