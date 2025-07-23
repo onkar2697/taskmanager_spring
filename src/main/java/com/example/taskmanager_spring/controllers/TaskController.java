@@ -2,6 +2,7 @@ package com.example.taskmanager_spring.controllers;
 
 import com.example.taskmanager_spring.dtos.CreateTaskDTO;
 import com.example.taskmanager_spring.dtos.ErrorResponseDTO;
+import com.example.taskmanager_spring.dtos.UpadteTaskDTO;
 import com.example.taskmanager_spring.entities.TaskEntity;
 import com.example.taskmanager_spring.service.TaskService;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,15 @@ public class TaskController {
         }
         e.printStackTrace();
         return ResponseEntity.internalServerError().body(new ErrorResponseDTO("Invalid request"));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<TaskEntity> updateTask(@PathVariable("id") Integer id, @RequestBody UpadteTaskDTO body) throws ParseException{
+        var task= taskService.UpdateTask(id,body.getDescription(), body.getDeadline(), body.getCompleted());
+
+        if(task == null){
+            return  ResponseEntity.notFound().build();
+        }
+        return  ResponseEntity.ok(task);
     }
 }

@@ -6,10 +6,10 @@ import java.util.Date;
 
 @Data
 public class TaskEntity {
+    private Date deadline;
     private int id;
     private String title;
     private String description;
-    private Date deadline;
     private Boolean completed;
 
 
