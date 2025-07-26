@@ -4,6 +4,7 @@ import com.example.taskmanager_spring.dtos.CreateTaskDTO;
 import com.example.taskmanager_spring.dtos.ErrorResponseDTO;
 import com.example.taskmanager_spring.dtos.UpadteTaskDTO;
 import com.example.taskmanager_spring.entities.TaskEntity;
+import com.example.taskmanager_spring.service.NoteService;
 import com.example.taskmanager_spring.service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,11 @@ import java.util.List;
 @RequestMapping("/tasks")
 public class TaskController {
     private final TaskService taskService;
+    private final NoteService noteService;
 
-    public TaskController(TaskService taskService){
+    public TaskController(TaskService taskService, NoteService noteService){
         this.taskService= taskService;
+        this.noteService = noteService;
     }
 
     @GetMapping("")
@@ -30,9 +33,11 @@ public class TaskController {
     @GetMapping("/{id}")
     public ResponseEntity<TaskEntity> getTaskById(@PathVariable("id")  Integer id){
          var tasks = taskService.getTaskById(id);
+         var notes = noteService.getNotesForTask(id);
          if(tasks == null){
              return ResponseEntity.notFound().build();
          }
+        tasks.setNotes(notes);
 
          return ResponseEntity.ok(tasks);
     }
