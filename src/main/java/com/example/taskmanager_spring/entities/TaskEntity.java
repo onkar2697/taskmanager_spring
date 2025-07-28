@@ -12,7 +12,6 @@ public class TaskEntity {
     private String title;
     private String description;
     private Boolean completed;
-    private List<NoteEntity> notes;
 
 
 }
